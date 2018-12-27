@@ -188,6 +188,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Classes\DBFUploader.cs" />
     <Compile Include="Classes\ExcelParser.cs" />
     <Compile Include="Controllers\PaymentController.cs" />
     <Compile Include="Controllers\AccountController.cs" />
