@@ -1,0 +1,186 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Payments_OBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="ExportToDBF">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="KB_A" Type="int" Nullable="false" />
+          <Property Name="KK_A" Type="nvarchar" MaxLength="14" Nullable="false" />
+          <Property Name="KB_B" Type="int" Nullable="false" />
+          <Property Name="KK_B" Type="nvarchar" MaxLength="14" Nullable="false" />
+          <Property Name="DK" Type="bit" Nullable="false" />
+          <Property Name="SUMMA" Type="int" Nullable="false" />
+          <Property Name="VID" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="NDOC" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="I_VA" Type="int" Nullable="false" />
+          <Property Name="DA" Type="date" Nullable="false" />
+          <Property Name="DA_DOC" Type="date" />
+          <Property Name="NK_A" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NK_B" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="NAZN" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="KOD_A" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="KOD_B" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="CPU" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="RawXlsData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FileName" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_1" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_2" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_3" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_4" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_5" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_6" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_7" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_8" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_9" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_10" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_11" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_12" Type="nvarchar" MaxLength="100" />
+          <Property Name="row_13" Type="nvarchar" MaxLength="100" />
+          <Property Name="Confirmed" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Payments_OBModelStoreContainer">
+          <EntitySet Name="ExportToDBF" EntityType="Self.ExportToDBF" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="RawXlsData" EntityType="Self.RawXlsData" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Payments_OBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="ExportToDBF">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="KB_A" Type="Int32" Nullable="false" />
+          <Property Name="KK_A" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KB_B" Type="Int32" Nullable="false" />
+          <Property Name="KK_B" Type="String" MaxLength="14" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="DK" Type="Boolean" Nullable="false" />
+          <Property Name="SUMMA" Type="Int32" Nullable="false" />
+          <Property Name="VID" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NDOC" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="I_VA" Type="Int32" Nullable="false" />
+          <Property Name="DA" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="DA_DOC" Type="DateTime" Precision="0" />
+          <Property Name="NK_A" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NK_B" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NAZN" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KOD_A" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="KOD_B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="CPU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="Payments_OBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="ExportToDBF" EntityType="Self.ExportToDBF" />
+          <EntitySet Name="RawXlsData" EntityType="Payments_OBModel.RawXlsData" />
+        </EntityContainer>
+        <EntityType Name="RawXlsData">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FileName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_1" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_2" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_3" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_4" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_5" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_6" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_7" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_8" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_9" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_10" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_11" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_12" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="row_13" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+        </EntityType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Payments_OBModelStoreContainer" CdmEntityContainer="Payments_OBEntities">
+          <EntitySetMapping Name="ExportToDBF">
+            <EntityTypeMapping TypeName="Payments_OBModel.ExportToDBF">
+              <MappingFragment StoreEntitySet="ExportToDBF">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="KB_A" ColumnName="KB_A" />
+                <ScalarProperty Name="KK_A" ColumnName="KK_A" />
+                <ScalarProperty Name="KB_B" ColumnName="KB_B" />
+                <ScalarProperty Name="KK_B" ColumnName="KK_B" />
+                <ScalarProperty Name="DK" ColumnName="DK" />
+                <ScalarProperty Name="SUMMA" ColumnName="SUMMA" />
+                <ScalarProperty Name="VID" ColumnName="VID" />
+                <ScalarProperty Name="NDOC" ColumnName="NDOC" />
+                <ScalarProperty Name="I_VA" ColumnName="I_VA" />
+                <ScalarProperty Name="DA" ColumnName="DA" />
+                <ScalarProperty Name="DA_DOC" ColumnName="DA_DOC" />
+                <ScalarProperty Name="NK_A" ColumnName="NK_A" />
+                <ScalarProperty Name="NK_B" ColumnName="NK_B" />
+                <ScalarProperty Name="NAZN" ColumnName="NAZN" />
+                <ScalarProperty Name="KOD_A" ColumnName="KOD_A" />
+                <ScalarProperty Name="KOD_B" ColumnName="KOD_B" />
+                <ScalarProperty Name="CPU" ColumnName="CPU" />
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RawXlsData">
+            <EntityTypeMapping TypeName="Payments_OBModel.RawXlsData">
+              <MappingFragment StoreEntitySet="RawXlsData">
+                <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
+                <ScalarProperty Name="row_13" ColumnName="row_13" />
+                <ScalarProperty Name="row_12" ColumnName="row_12" />
+                <ScalarProperty Name="row_11" ColumnName="row_11" />
+                <ScalarProperty Name="row_10" ColumnName="row_10" />
+                <ScalarProperty Name="row_9" ColumnName="row_9" />
+                <ScalarProperty Name="row_8" ColumnName="row_8" />
+                <ScalarProperty Name="row_7" ColumnName="row_7" />
+                <ScalarProperty Name="row_6" ColumnName="row_6" />
+                <ScalarProperty Name="row_5" ColumnName="row_5" />
+                <ScalarProperty Name="row_4" ColumnName="row_4" />
+                <ScalarProperty Name="row_3" ColumnName="row_3" />
+                <ScalarProperty Name="row_2" ColumnName="row_2" />
+                <ScalarProperty Name="row_1" ColumnName="row_1" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
