@@ -17,7 +17,7 @@ namespace WebPaymentsLoader.Classes
     {
         private static object locker = new object();
         public static string folder = System.Configuration.ConfigurationManager.AppSettings["XlsFolder"]; //@"C:\Users\aiurchenko\Documents\huspi";
-        public static string dbfFolder = System.Configuration.ConfigurationManager.AppSettings["DBFFolder"]; //@"C:\Users\aiurchenko\Documents\huspi";
+        
 
 
         /// <summary>

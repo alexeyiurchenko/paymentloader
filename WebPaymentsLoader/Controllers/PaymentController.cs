@@ -28,12 +28,52 @@ namespace WebPaymentsLoader.Controllers
         [AllowAnonymous]
         public ActionResult GetPayments()
         {
-            var data = entities.RawXlsData.Select(q => q.Confirmed == false).ToList();
+            var data = entities.RawXlsData.Where(q => q.Confirmed == false).ToList();
 
             return View(data);
         }
 
-        
-        
+        //
+        // GET: /Payment/GetPaymentsData
+        [HttpGet]
+        [AllowAnonymous]
+        [Route ("Payment/GetPaymentsData")]
+        public JsonResult GetPaymentsData()
+        {
+            var data = entities.RawXlsData.Where(q => q.Confirmed == false).ToList();
+
+            return Json(data,JsonRequestBehavior.AllowGet);
+        }
+
+        //
+        // GET: /Payment/GetDBFExportData
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Payment/GetDBFExportData")]
+        public JsonResult GetDBFExportData()
+        {
+            var data = entities.ExportToDBF.Where(q => q.Confirmed == false).ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+        //
+        // POST: /Payment/GetDBFExportData
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/ExportToDBF")]
+        public void ExportToDBF()
+        {
+
+
+            var data = entities.ExportToDBF.Where(q => q.Confirmed == false).ToList();
+            string fileName = "PP" +DateTime.Now.ToString("HHmmss");
+            WebPaymentsLoader.Classes.DBFUploader.ListIntoDBF<ExportToDBF>(fileName, data);
+
+
+
+        }
+
+
     }
 }

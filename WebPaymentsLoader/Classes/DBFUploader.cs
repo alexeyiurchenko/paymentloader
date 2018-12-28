@@ -9,17 +9,52 @@ using System.Web;
 
 namespace WebPaymentsLoader.Classes
 {
-
+    
 
     public class DBFUploader
     {
+        public static string dbfFolder = System.Configuration.ConfigurationManager.AppSettings["DBFFolder"];
+
+        public static void ListIntoDBF<T>(string fileName, IList<T> list)
+        {
+            Type elementType = typeof(T);
+            DataSet ds = new DataSet();
+            DataTable t = new DataTable();
+            ds.Tables.Add(t);
+
+            
+            foreach (var propInfo in elementType.GetProperties())
+            {
+                Type ColType = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
+
+                t.Columns.Add(propInfo.Name, ColType);
+            }
+
+            
+            foreach (T item in list)
+            {
+                DataRow row = t.NewRow();
+
+                foreach (var propInfo in elementType.GetProperties())
+                {
+                    row[propInfo.Name] = propInfo.GetValue(item, null) ?? DBNull.Value;
+                }
+
+                t.Rows.Add(row);
+            }
+
+            DataSetIntoDBF(fileName, ds);
+
+        }
+
+
         public static void DataSetIntoDBF(string fileName, DataSet dataSet)
         {
             ArrayList list = new ArrayList();
 
-            if (File.Exists(fileName))
+            if (File.Exists(dbfFolder + fileName + ".dbf"))
             {
-                File.Delete(fileName);
+                File.Delete(dbfFolder + fileName + ".dbf");
             }
 
             string createSql = "create table " + fileName + " (";
@@ -60,7 +95,7 @@ namespace WebPaymentsLoader.Classes
 
             createSql = createSql.Substring(0, createSql.Length - 1) + ")";
 
-            OleDbConnection con = new OleDbConnection(GetConnection(fileName));
+            OleDbConnection con = new OleDbConnection(GetConnection(dbfFolder));
 
             OleDbCommand cmd = new OleDbCommand();
 
