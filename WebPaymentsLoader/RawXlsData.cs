@@ -30,5 +30,6 @@ namespace WebPaymentsLoader
         public string row_12 { get; set; }
         public string row_13 { get; set; }
         public bool Confirmed { get; set; }
+        public System.DateTime FileDate { get; set; }
     }
 }

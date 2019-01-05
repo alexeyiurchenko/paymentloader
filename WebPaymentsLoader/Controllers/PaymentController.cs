@@ -38,9 +38,9 @@ namespace WebPaymentsLoader.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route ("Payment/GetPaymentsData")]
-        public JsonResult GetPaymentsData()
+        public JsonResult GetPaymentsData(DateTime? FileDate)
         {
-            var data = entities.RawXlsData.Where(q => q.Confirmed == false).ToList();
+            var data = entities.RawXlsData.Where(q => q.Confirmed == false && q.row_11 !=null && q.row_11.Length>2 && q.FileDate == FileDate).ToList();
 
             return Json(data,JsonRequestBehavior.AllowGet);
         }

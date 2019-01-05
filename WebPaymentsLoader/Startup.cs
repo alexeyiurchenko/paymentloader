@@ -11,6 +11,7 @@ namespace WebPaymentsLoader
         public void Configuration(IAppBuilder app)
         {
             ConfigureAuth(app);
+            
             var threadParser = new Thread(ExcelParser.ParserThread);
             threadParser.Start();
             

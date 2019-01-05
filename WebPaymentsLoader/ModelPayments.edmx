@@ -9,7 +9,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="KB_A" Type="int" Nullable="false" />
           <Property Name="KK_A" Type="nvarchar" MaxLength="14" Nullable="false" />
           <Property Name="KB_B" Type="int" Nullable="false" />
@@ -49,6 +49,7 @@
           <Property Name="row_12" Type="nvarchar" MaxLength="100" />
           <Property Name="row_13" Type="nvarchar" MaxLength="100" />
           <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="FileDate" Type="date" Nullable="false" />
         </EntityType>
         <EntityContainer Name="Payments_OBModelStoreContainer">
           <EntitySet Name="ExportToDBF" EntityType="Self.ExportToDBF" Schema="dbo" store:Type="Tables" />
@@ -106,6 +107,7 @@
           <Property Name="row_12" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="row_13" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+          <Property Name="FileDate" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -141,6 +143,7 @@
           <EntitySetMapping Name="RawXlsData">
             <EntityTypeMapping TypeName="Payments_OBModel.RawXlsData">
               <MappingFragment StoreEntitySet="RawXlsData">
+                <ScalarProperty Name="FileDate" ColumnName="FileDate" />
                 <ScalarProperty Name="Confirmed" ColumnName="Confirmed" />
                 <ScalarProperty Name="row_13" ColumnName="row_13" />
                 <ScalarProperty Name="row_12" ColumnName="row_12" />

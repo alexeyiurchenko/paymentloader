@@ -7,6 +7,7 @@ using System.Web;
 using System.IO;
 using System.Configuration;
 using System.Threading;
+using NLog;
 
 
 namespace WebPaymentsLoader.Classes
@@ -15,6 +16,7 @@ namespace WebPaymentsLoader.Classes
 
     public class ExcelParser
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
         private static object locker = new object();
         public static string folder = System.Configuration.ConfigurationManager.AppSettings["XlsFolder"]; //@"C:\Users\aiurchenko\Documents\huspi";
         
@@ -26,7 +28,7 @@ namespace WebPaymentsLoader.Classes
         /// <param name="state"></param>
         internal static void ParserThread(object state)
         {
-
+            logger.Info("ParseTread started!");
             TimeSpan timeout = TimeSpan.Parse("00:00:15");
             try
             {
@@ -34,7 +36,7 @@ namespace WebPaymentsLoader.Classes
             }
             catch (Exception e)
             {
-                //todo add log
+                //logger.Error(e.Message);
             }
             while (true)
             {
@@ -45,6 +47,7 @@ namespace WebPaymentsLoader.Classes
                 }
                 catch (Exception e)
                 {
+                    logger.Error(e.Message);
                 }
                 finally
                 {
@@ -63,6 +66,7 @@ namespace WebPaymentsLoader.Classes
         {
             foreach (var a in Directory.GetFiles(folder, "*.xls"))
             {
+                logger.Info("file " + a);
                 return a;
             }
             return "";
@@ -109,7 +113,8 @@ namespace WebPaymentsLoader.Classes
                         row_8 = row.ItemArray[8].ToString(),
                         row_9 = row.ItemArray[9].ToString(),
                         row_10 = row.ItemArray[10].ToString(),
-                        row_11 = row.ItemArray[11].ToString()
+                        row_11 = row.ItemArray[11].ToString(),
+                        FileDate = DateTime.Today
 
                     };
 
