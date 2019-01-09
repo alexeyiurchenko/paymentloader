@@ -12,6 +12,8 @@ namespace WebPaymentsLoader
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class Payments_OBEntities : DbContext
     {
@@ -27,5 +29,15 @@ namespace WebPaymentsLoader
     
         public virtual DbSet<ExportToDBF> ExportToDBF { get; set; }
         public virtual DbSet<RawXlsData> RawXlsData { get; set; }
+        public virtual DbSet<vw_paymentsAccountTemplates> vw_paymentsAccountTemplates { get; set; }
+    
+        public virtual int up_upload_to_dbf(Nullable<int> account_id)
+        {
+            var account_idParameter = account_id.HasValue ?
+                new ObjectParameter("account_id", account_id) :
+                new ObjectParameter("account_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_upload_to_dbf", account_idParameter);
+        }
     }
 }

@@ -38,12 +38,28 @@ namespace WebPaymentsLoader.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route ("Payment/GetPaymentsData")]
-        public JsonResult GetPaymentsData(DateTime? FileDate)
+        public JsonResult GetPaymentsData(DateTime? FileDateFrom , DateTime? FileDateTo)
         {
-            var data = entities.RawXlsData.Where(q => q.Confirmed == false && q.row_11 !=null && q.row_11.Length>2 && q.FileDate == FileDate).ToList();
+            var data = entities.RawXlsData.Where(q => q.Confirmed == false && q.row_11 !=null && q.row_11.Length>2 
+                                            && q.FileDate >= FileDateFrom && q.FileDate <= FileDateTo).ToList();
 
             return Json(data,JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/SetPaymentsData")]
+        public void SetPaymentsData(int RowId,Boolean Accepted )
+        {
+
+            var row = entities.RawXlsData.SingleOrDefault(q => q.Id == RowId);
+            if (row != null)
+            {
+                row.row_11 = Accepted.ToString();
+                entities.SaveChanges();
+            }
+        }
+
 
         //
         // GET: /Payment/GetDBFExportData
@@ -58,21 +74,49 @@ namespace WebPaymentsLoader.Controllers
         }
 
         //
-        // POST: /Payment/GetDBFExportData
+        // GET: /Payment/GetDBFExportData
+        [HttpGet]
+        [AllowAnonymous]
+        [Route("Payment/GetAccountsData")]
+        public JsonResult GetAccountsData()
+        {
+            var data = entities.vw_paymentsAccountTemplates.ToList();
+
+            return Json(data, JsonRequestBehavior.AllowGet);
+        }
+
+
+        //
+        // POST: /Payment/ExportToDBF
         [HttpPost]
         [AllowAnonymous]
         [Route("Payment/ExportToDBF")]
-        public void ExportToDBF()
+        public void ExportToDBF(string FileName)
         {
 
 
             var data = entities.ExportToDBF.Where(q => q.Confirmed == false).ToList();
-            string fileName = "PP" +DateTime.Now.ToString("HHmmss");
+            string fileName =  FileName.Substring(0,8) ;//"PP" +DateTime.Now.ToString("HHmmss");
             WebPaymentsLoader.Classes.DBFUploader.ListIntoDBF<ExportToDBF>(fileName, data);
 
 
 
         }
+
+
+        //
+        // POST: /Payment/CreatePayments
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/CreatePayments")]
+        public void CreatePayments(int AccountId = 1)
+        {
+
+            entities.up_upload_to_dbf(AccountId);
+            
+        }
+
+
 
 
     }

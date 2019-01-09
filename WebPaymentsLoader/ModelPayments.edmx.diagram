@@ -7,6 +7,7 @@
       <Diagram DiagramId="ec09d59c608f4497bec3b15e2529dab2" Name="Diagram1">
         <EntityTypeShape EntityType="Payments_OBModel.ExportToDBF" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="Payments_OBModel.RawXlsData" Width="1.5" PointX="3.375" PointY="0.75" />
+        <EntityTypeShape EntityType="Payments_OBModel.vw_paymentsAccountTemplates" Width="1.5" PointX="5.375" PointY="0.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

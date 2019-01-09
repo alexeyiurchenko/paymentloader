@@ -230,6 +230,9 @@
       <DependentUpon>ModelPayments.tt</DependentUpon>
     </Compile>
     <Compile Include="Startup.cs" />
+    <Compile Include="vw_paymentsAccountTemplates.cs">
+      <DependentUpon>ModelPayments.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />

@@ -13,6 +13,10 @@ project.lock.json
 *.user
 *.userosscache
 *.sln.docstates
+*.mdf
+*.ldf
+
+
 
 # Build results
 [Dd]ebug/
