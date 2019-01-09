@@ -38,7 +38,7 @@ namespace WebPaymentsLoader.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route ("Payment/GetPaymentsData")]
-        public JsonResult GetPaymentsData(DateTime? FileDateFrom , DateTime? FileDateTo)
+        public JsonResult GetPaymentsData(DateTime? FileDateFrom , DateTime? FileDateTo, Boolean? Confirmed = false )
         {
             var data = entities.RawXlsData.Where(q => q.Confirmed == false && q.row_11 !=null && q.row_11.Length>2 
                                             && q.FileDate >= FileDateFrom && q.FileDate <= FileDateTo).ToList();
@@ -49,14 +49,14 @@ namespace WebPaymentsLoader.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Payment/SetPaymentsData")]
-        public void SetPaymentsData(int RowId,Boolean Accepted )
+        public async void SetPaymentsData(int RowId,Boolean Accepted )
         {
 
             var row = entities.RawXlsData.SingleOrDefault(q => q.Id == RowId);
             if (row != null)
             {
                 row.row_11 = Accepted.ToString();
-                entities.SaveChanges();
+                await entities.SaveChangesAsync();
             }
         }
 
@@ -99,7 +99,7 @@ namespace WebPaymentsLoader.Controllers
             string fileName =  FileName.Substring(0,8) ;//"PP" +DateTime.Now.ToString("HHmmss");
             WebPaymentsLoader.Classes.DBFUploader.ListIntoDBF<ExportToDBF>(fileName, data);
 
-
+            Response.Redirect(@"~/files/" + fileName + ".dbf");
 
         }
 
