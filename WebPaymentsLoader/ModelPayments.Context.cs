@@ -39,5 +39,32 @@ namespace WebPaymentsLoader
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_upload_to_dbf", account_idParameter);
         }
+    
+        public virtual int up_create_payments(Nullable<int> account_id)
+        {
+            var account_idParameter = account_id.HasValue ?
+                new ObjectParameter("account_id", account_id) :
+                new ObjectParameter("account_id", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_create_payments", account_idParameter);
+        }
+    
+        public virtual int up_export_data_set_confirmed(string file_name)
+        {
+            var file_nameParameter = file_name != null ?
+                new ObjectParameter("file_name", file_name) :
+                new ObjectParameter("file_name", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_export_data_set_confirmed", file_nameParameter);
+        }
+    
+        public virtual int up_export_data_update(string value)
+        {
+            var valueParameter = value != null ?
+                new ObjectParameter("value", value) :
+                new ObjectParameter("value", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_export_data_update", valueParameter);
+        }
     }
 }

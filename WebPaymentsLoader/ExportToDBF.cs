@@ -33,5 +33,6 @@ namespace WebPaymentsLoader
         public string KOD_B { get; set; }
         public string CPU { get; set; }
         public bool Confirmed { get; set; }
+        public string FileName { get; set; }
     }
 }

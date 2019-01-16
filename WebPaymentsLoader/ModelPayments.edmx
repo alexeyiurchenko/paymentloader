@@ -28,6 +28,7 @@
           <Property Name="KOD_B" Type="nvarchar(max)" Nullable="false" />
           <Property Name="CPU" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Confirmed" Type="bit" Nullable="false" />
+          <Property Name="FileName" Type="varchar" MaxLength="20" />
         </EntityType>
         <EntityType Name="RawXlsData">
           <Key>
@@ -67,6 +68,15 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
           <Property Name="EDRPO" Type="nvarchar" MaxLength="10" />
           <Property Name="Narrative" Type="nvarchar" MaxLength="160" />
         </EntityType>
+        <Function Name="up_create_payments" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="account_id" Type="int" Mode="In" />
+        </Function>
+        <Function Name="up_export_data_set_confirmed" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="file_name" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="up_export_data_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="value" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="up_upload_to_dbf" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="account_id" Type="int" Mode="In" />
         </Function>
@@ -111,13 +121,23 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
           <Property Name="KOD_B" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="CPU" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Confirmed" Type="Boolean" Nullable="false" />
+          <Property Name="FileName" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityContainer Name="Payments_OBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="ExportToDBF" EntityType="Self.ExportToDBF" />
           <EntitySet Name="RawXlsData" EntityType="Payments_OBModel.RawXlsData" />
           <EntitySet Name="vw_paymentsAccountTemplates" EntityType="Payments_OBModel.vw_paymentsAccountTemplates" />
           <FunctionImport Name="up_upload_to_dbf">
-            <Parameter Name="account_id" Mode="In" Type="Int32" />
+          <Parameter Name="account_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="up_create_payments">
+          <Parameter Name="account_id" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="up_export_data_set_confirmed">
+          <Parameter Name="file_name" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="up_export_data_update">
+            <Parameter Name="value" Mode="In" Type="String" />
           </FunctionImport>
         </EntityContainer>
         <EntityType Name="RawXlsData">
@@ -165,6 +185,7 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
           <EntitySetMapping Name="ExportToDBF">
             <EntityTypeMapping TypeName="Payments_OBModel.ExportToDBF">
               <MappingFragment StoreEntitySet="ExportToDBF">
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="KB_A" ColumnName="KB_A" />
                 <ScalarProperty Name="KK_A" ColumnName="KK_A" />
@@ -223,6 +244,9 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
             </EntityTypeMapping>
           </EntitySetMapping>
           <FunctionImportMapping FunctionImportName="up_upload_to_dbf" FunctionName="Payments_OBModel.Store.up_upload_to_dbf" />
+          <FunctionImportMapping FunctionImportName="up_create_payments" FunctionName="Payments_OBModel.Store.up_create_payments" />
+          <FunctionImportMapping FunctionImportName="up_export_data_set_confirmed" FunctionName="Payments_OBModel.Store.up_export_data_set_confirmed" />
+          <FunctionImportMapping FunctionImportName="up_export_data_update" FunctionName="Payments_OBModel.Store.up_export_data_update" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

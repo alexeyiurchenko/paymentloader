@@ -13,6 +13,7 @@ namespace WebPaymentsLoader.Controllers
 {
     public class UploadFileController : ApiController
     {
+        private static NLog.Logger logger = NLog.LogManager.GetCurrentClassLogger();
 
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("UploadFile/UploadFile")]
@@ -34,6 +35,40 @@ namespace WebPaymentsLoader.Controllers
                 return InternalServerError(ex);
             }
         }
+        
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("UploadFile/UploadFile_v2")]
+        public HttpResponseMessage Post()
+        {
+            var httpContext = HttpContext.Current;
+            logger.Info("UploadFile/UploadFile_v2:Count files" + httpContext.Request.Files.Count.ToString());
+
+            // Check for any uploaded file  
+            if (httpContext.Request.Files.Count > 0)
+                {
+                logger.Info("httpContext.Request.Files.Count:" + httpContext.Request.Files.Count.ToString());
+
+                //Loop through uploaded files  
+                for (int i = 0; i < httpContext.Request.Files.Count; i++)
+                    {
+                        HttpPostedFile httpPostedFile = httpContext.Request.Files[i];
+                        if (httpPostedFile != null)
+                        {
+                            // Construct file save path  
+                            var fileSavePath = Path.Combine(System.Configuration.ConfigurationManager.AppSettings["XlsFolder"], httpPostedFile.FileName);
+
+                        logger.Info("fileSavePath:" + fileSavePath);
+
+                        // Save the uploaded file  
+                        httpPostedFile.SaveAs(fileSavePath);
+                        }
+                    }
+                }
+
+                // Return status code  
+                return Request.CreateResponse(HttpStatusCode.Created);
+            }
+        
 
     }
 
