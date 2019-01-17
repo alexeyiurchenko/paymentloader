@@ -29,28 +29,15 @@ namespace WebPaymentsLoader.Controllers
         {
         }
 
-
-        ////
-        //// GET: /Payment/GetPayments
-        //[System.Web.Mvc.HttpGet]
-        //[System.Web.Mvc.AllowAnonymous]
-        //public ActionResult GetPayments()
-        //{
-        //    var data = entities.RawXlsData.Where(q => q.Confirmed == false).ToList();
-
-        //    return View(data);
-        //}
-
-
         ///GET: /Payment/GetPaymentsData
-       [System.Web.Http.HttpGet]
-       [System.Web.Http.AllowAnonymous]
-       [System.Web.Http.Route("Payment/GetPaymentsData")]
+       [HttpGet]
+       [AllowAnonymous]
+       [Route("Payment/GetPaymentsData")]
         public JsonResult GetPaymentsData(DateTime? FileDateFrom, DateTime? FileDateTo, Boolean? Confirmed = false)
         {
             logger.Info("Payment/GetPaymentsData?FileDateFrom=" + FileDateFrom.ToString() + "&FileDateTo=" + FileDateTo.ToString());
             var data = entities.RawXlsData.Where(q => q.Confirmed == false && q.row_11 != null && q.row_11.Length > 2
-                                            && q.FileDate >= FileDateFrom && q.FileDate <= FileDateTo).ToList();
+                                            && q.FileDate >= FileDateFrom && q.FileDate <= FileDateTo).AsNoTracking().ToList();
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -58,14 +45,14 @@ namespace WebPaymentsLoader.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Payment/SetPaymentsData")]
-        public async void SetPaymentsData(int RowId, Boolean Accepted)
+        public void SetPaymentsData(int RowId, Boolean Accepted)
         {
 
             var row = entities.RawXlsData.SingleOrDefault(q => q.Id == RowId);
             if (row != null)
             {
                 row.row_11 = Accepted.ToString();
-                await entities.SaveChangesAsync();
+                entities.SaveChangesAsync();
             }
         }
 
@@ -78,7 +65,7 @@ namespace WebPaymentsLoader.Controllers
         public JsonResult GetExportData()
         {
             logger.Info("Payment/GetExportData");
-            var data = entities.ExportToDBF.Where(q => q.Confirmed == false).ToList();
+            var data = entities.ExportToDBF.Where(q => q.Confirmed == false).AsNoTracking().ToList();
 
             return Json(data, JsonRequestBehavior.AllowGet);
         }
@@ -88,11 +75,13 @@ namespace WebPaymentsLoader.Controllers
         [HttpGet]
         [AllowAnonymous]
         [Route("Payment/GetExportedData")]
+        [OutputCache(VaryByParam = "*", Duration = 0, NoStore = true)]
         public JsonResult GetExportedData()
         {
             logger.Info("Payment/GetExportedData");
-            var data = entities.ExportToDBF.Where(q => q.Confirmed == true).ToList();
+            var data = entities.ExportToDBF.Where(q => q.Confirmed == true).AsNoTracking().ToList();
 
+            logger.Info(data.First().FileName);
             return Json(data, JsonRequestBehavior.AllowGet);
         }
 
@@ -102,14 +91,14 @@ namespace WebPaymentsLoader.Controllers
         [HttpPost]
         [AllowAnonymous]
         [Route("Payment/SetExportData")]
-        public async void SetExportData(int RowId, string Narrative)
+        public void SetExportData(int RowId, string Narrative)
         {
             logger.Info("Payment/SetExportData?RowId=" + RowId.ToString());
             var row = entities.ExportToDBF.SingleOrDefault(q => q.Id == RowId);
             if (row != null)
             {
                 row.NAZN = Narrative;
-                await entities.SaveChangesAsync();
+                entities.SaveChangesAsync();
             }
         }
 
@@ -160,9 +149,9 @@ namespace WebPaymentsLoader.Controllers
 
         //
         // POST: /Payment/CreatePayments
-        [System.Web.Http.HttpPost]
-        [System.Web.Http.AllowAnonymous]
-        [System.Web.Http.Route("Payment/CreatePayments")]
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/CreatePayments")]
         public void CreatePayments(int TemplateId , List<IDList> listId)
         {
             logger.Info("Payment/CreatePayments?TemplateId=" + TemplateId.ToString());
