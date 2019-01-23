@@ -29,6 +29,8 @@ namespace WebPaymentsLoader.Controllers
         {
         }
 
+
+
         ///GET: /Payment/GetPaymentsData
        [HttpGet]
        [AllowAnonymous]
@@ -54,6 +56,22 @@ namespace WebPaymentsLoader.Controllers
                 row.row_11 = Accepted.ToString();
                 entities.SaveChangesAsync();
             }
+        }
+
+        /// <summary>
+        /// Помічає строки як завершені в завантаженому файлі, щоб більше їх не відображати
+        /// </summary>
+        /// <param name="listId"></param>
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/SetPaymentsDataConfirmed")]
+        public void SetPaymentsDataConfirmed(List<IDList> listId)
+        {
+            logger.Info("Payment/SetPaymentsDataConfirmed");
+            List<int> IDs = listId.Select(q => q.ID).ToList();
+
+            entities.RawXlsData.Where(q => IDs.Contains(q.Id)).ToList().ForEach(u => u.Confirmed=true);
+            entities.SaveChanges();
         }
 
 
@@ -116,6 +134,21 @@ namespace WebPaymentsLoader.Controllers
         }
 
 
+        ////
+        //// GET: /Payment/SetAccountsData
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/SetAccountsData")]
+        public void SetAccountsData(vw_paymentsAccountTemplates model)
+        {
+            logger.Info("Payment/SetAccountsData");
+            entities.up_merge_template(model.Id, model.EDRPO, model.MFO, model.Account, model.Narrative, model.NAME, model.NAME);
+            entities.SaveChanges();
+           
+            
+        }
+
+
         //
         // POST: /Payment/ExportToDBF
         /// <summary>
@@ -146,6 +179,29 @@ namespace WebPaymentsLoader.Controllers
 
         }
 
+        //
+        // POST: /Payment/Confirmed
+        /// <summary>
+        /// set payments confirmed for selected rows
+        /// </summary>
+        /// <param name="FileName"></param>
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("Payment/Confirmed")]
+        public void Confirmed(List<IDList> listId)
+        {
+            logger.Info("Payment/Confirmed");
+            List<int> IDs = listId.Select(q => q.ID).ToList();
+
+            var procedure = new PaymentsConfirmed()
+            {
+                FileName = "",
+                IDList = listId
+            };
+            context.Database.ExecuteStoredProcedure(procedure);
+            
+        }
+
 
         //
         // POST: /Payment/CreatePayments
@@ -166,6 +222,22 @@ namespace WebPaymentsLoader.Controllers
         }
 
 
+
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            filterContext.ExceptionHandled = true;
+
+            //Log the error!!
+            logger.Error(filterContext.Exception);
+
+            //Redirect or return a view, but not both.
+            filterContext.Result = RedirectToAction("Index", "ErrorHandler");
+            // OR 
+            filterContext.Result = new ViewResult
+            {
+                ViewName = "~/Views/Shared/Error.cshtml"
+            };
+        }
 
 
     }

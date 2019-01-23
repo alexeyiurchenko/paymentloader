@@ -66,5 +66,38 @@ namespace WebPaymentsLoader
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_export_data_update", valueParameter);
         }
+    
+        public virtual int up_merge_template(Nullable<int> template_id, string cODE, Nullable<int> mFO, string account, string narrative, string templateName, string accountName)
+        {
+            var template_idParameter = template_id.HasValue ?
+                new ObjectParameter("template_id", template_id) :
+                new ObjectParameter("template_id", typeof(int));
+    
+            var cODEParameter = cODE != null ?
+                new ObjectParameter("CODE", cODE) :
+                new ObjectParameter("CODE", typeof(string));
+    
+            var mFOParameter = mFO.HasValue ?
+                new ObjectParameter("MFO", mFO) :
+                new ObjectParameter("MFO", typeof(int));
+    
+            var accountParameter = account != null ?
+                new ObjectParameter("Account", account) :
+                new ObjectParameter("Account", typeof(string));
+    
+            var narrativeParameter = narrative != null ?
+                new ObjectParameter("Narrative", narrative) :
+                new ObjectParameter("Narrative", typeof(string));
+    
+            var templateNameParameter = templateName != null ?
+                new ObjectParameter("TemplateName", templateName) :
+                new ObjectParameter("TemplateName", typeof(string));
+    
+            var accountNameParameter = accountName != null ?
+                new ObjectParameter("AccountName", accountName) :
+                new ObjectParameter("AccountName", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("up_merge_template", template_idParameter, cODEParameter, mFOParameter, accountParameter, narrativeParameter, templateNameParameter, accountNameParameter);
+        }
     }
 }

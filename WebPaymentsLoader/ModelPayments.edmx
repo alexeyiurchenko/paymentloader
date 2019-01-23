@@ -77,6 +77,15 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
         <Function Name="up_export_data_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="value" Type="varchar" Mode="In" />
         </Function>
+        <Function Name="up_merge_template" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="template_id" Type="int" Mode="In" />
+          <Parameter Name="CODE" Type="nvarchar" Mode="In" />
+          <Parameter Name="MFO" Type="int" Mode="In" />
+          <Parameter Name="Account" Type="nvarchar" Mode="In" />
+          <Parameter Name="Narrative" Type="nvarchar" Mode="In" />
+          <Parameter Name="TemplateName" Type="nvarchar" Mode="In" />
+          <Parameter Name="AccountName" Type="nvarchar" Mode="In" />
+        </Function>
         <Function Name="up_upload_to_dbf" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="account_id" Type="int" Mode="In" />
         </Function>
@@ -114,6 +123,15 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
           <Parameter Name="value" Mode="In" Type="String" />
           </FunctionImport>
           <EntitySet Name="ExportToDBF" EntityType="Payments_OBModel.ExportToDBF" />
+          <FunctionImport Name="up_merge_template">
+            <Parameter Name="template_id" Mode="In" Type="Int32" />
+            <Parameter Name="CODE" Mode="In" Type="String" />
+            <Parameter Name="MFO" Mode="In" Type="Int32" />
+            <Parameter Name="Account" Mode="In" Type="String" />
+            <Parameter Name="Narrative" Mode="In" Type="String" />
+            <Parameter Name="TemplateName" Mode="In" Type="String" />
+            <Parameter Name="AccountName" Mode="In" Type="String" />
+          </FunctionImport>
         </EntityContainer>
         <EntityType Name="RawXlsData">
           <Key>
@@ -247,6 +265,7 @@ warning 6002: The table/view 'Payments_OB.dbo.vw_paymentsAccountTemplates' does 
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="up_merge_template" FunctionName="Payments_OBModel.Store.up_merge_template" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
